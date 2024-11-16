@@ -12,14 +12,15 @@
 // La macro solo se ejecutara correctamente si callback es una función y si se han
 // proporcionado los parámetros que necesita la propia función para ejecutarse
 // correctamente. En caso contrario, el compilador debería de mostrar un fallo.
-#define ERROR_HANDLER(sCode, funcName,callback, ...) if (sCode != 0) {\
-	printf("["COL_BOLD COL_RED"*"COL_RESET"] ");\
-	printf("Bad status sCode: %d\n", sCode);\
-	printf("["COL_RED "!" COL_RESET"] ");\
-	printf("Catched at function: "COL_BOLD"%s"COL_RESET, __func__);\
-	printf("\n");\
-	if (callback != NULL) callback(__VA_ARGS__);\
-	exit(1);\
+#define ERROR_HANDLER(sCode, funcName,callback, ...) \
+	if (sCode != 0) {\
+		printf("["COL_BOLD COL_RED"*"COL_RESET"] ");\
+		printf("Bad status sCode: %d\n", sCode);\
+		printf("["COL_RED "!" COL_RESET"] ");\
+		printf("Catched at function: "COL_BOLD"%s"COL_RESET, __func__);\
+		printf("\n");\
+		if (callback != NULL) callback(__VA_ARGS__);\
+		exit(1);\
 	}
 
 void	errorHandler(int sCode, const char *fName, void (*callback)(void), ...);
