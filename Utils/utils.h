@@ -9,7 +9,7 @@
 #define COL_BLUE "\033[34m"
 #define COL_BOLD "\033[1m"
 // Esta macro nos permite gestionar los errores de la llamada a una función.
-// La macro solo se ejecutara correctamente si callback es una función y si se han
+// La macro solo se ejecutará correctamente si callback es una función y si se han
 // proporcionado los parámetros que necesita la propia función para ejecutarse
 // correctamente. En caso contrario, el compilador debería de mostrar un fallo.
 #define ERROR_HANDLER(sCode, funcName,callback, ...) \
