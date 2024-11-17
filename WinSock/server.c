@@ -25,7 +25,8 @@ int main(void) {
 	// El puerto puede ser especificado como numero o como servicio, "http" es equivalente a "80"
 	// https://learn.microsoft.com/en-us/windows/win32/api/ws2tcpip/nf-ws2tcpip-getaddrinfo
 	iResult = getaddrinfo(NULL, PORT, &hints, &addrData);
-	ERROR_HANDLER(iResult, getaddrinfo, WSACleanup);
+	if (iResult == SOCKET_ERROR)
+		ERROR_HANDLER(WSAGetLastError(),"getaddrinfo", cleanUp, &ListenSocket, addrData);
 	ListenSocket = socket(addrData->ai_family, addrData->ai_socktype, addrData->ai_protocol);
 	if (ListenSocket == INVALID_SOCKET)
 		ERROR_HANDLER(WSAGetLastError(),"socket", cleanUp, &ListenSocket, addrData);
@@ -51,13 +52,14 @@ void initWinSockApp(WSADATA*	wsaData) {
 	printf("["COL_YELLOW"-"COL_RESET"] ");
 	printf("Initiliazing socket\n");
 	iResult = WSAStartup(MAKEWORD(2,2), wsaData);
+ 	ERROR_HANDLER(iResult, __func__, WSACleanup);
 	// WSAStartup devuelve el codigo de error deseado, no es necesario llamar
 	// a WSAGetLastError. 
 	// https://learn.microsoft.com/en-us/windows/win32/api/winsock2/nf-winsock2-wsastartup
- 	ERROR_HANDLER(iResult, __func__, WSACleanup);
 }
 
 void cleanUp(SOCKET* s, struct addrinfo* data) {
+	//TODO: Comprobar los datos para evitar liberar o cerrar valores indebidos.
 	if (s != NULL && *s != INVALID_SOCKET) {
 		closesocket(*s);	
 	}
