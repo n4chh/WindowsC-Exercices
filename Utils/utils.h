@@ -17,7 +17,7 @@
 		printf("["COL_BOLD COL_RED"*"COL_RESET"] ");\
 		printf("Bad status sCode: %d\n", sCode);\
 		printf("["COL_RED "!" COL_RESET"] ");\
-		printf("Catched at function: "COL_BOLD"%s"COL_RESET, __func__);\
+		printf("Catched at function: "COL_BOLD"%s"COL_RESET, funcName);\
 		printf("\n");\
 		if (callback != NULL) callback(__VA_ARGS__);\
 		exit(1);\
